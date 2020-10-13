@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/posener/complete"
+	"github.com/chriswalz/complete"
 )
 
 var (

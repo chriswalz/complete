@@ -16,7 +16,7 @@ Install
 
 1. Type in your shell:
 
-	go get -u github.com/posener/complete/gocomplete
+	go get -u github.com/chriswalz/complete/gocomplete
 	gocomplete -install
 
 2. Restart your shell
@@ -51,7 +51,7 @@ options for `run`.
 
 So here it is:
 
-	import "github.com/posener/complete"
+	import "github.com/chriswalz/complete"
 
 	func main() {
 
