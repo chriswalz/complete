@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/chriswalz/autogen"
+	"github.com/posener/autogen"
 )
 
 //go:generate go run .
