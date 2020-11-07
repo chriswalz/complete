@@ -16,17 +16,20 @@ func TestFlags(t *testing.T) {
 	)
 
 	fs := flag.NewFlagSet("test", flag.ExitOnError)
-	fs.Var(&tr, "foo", "")
+	fs.Var(&tr, "f", "")
+	fs.Var(&fl, "b", "")
+	fs.Var(&fl, "foo", "")
 	fs.Var(&fl, "bar", "")
 	fs.String("foo-bar", "", "")
 	cmp := FlagSet(fs)
 
-	Test(t, cmp, "", []string{"-foo", "-bar", "-foo-bar", "-h"})
-	Test(t, cmp, "-foo", []string{"-foo", "-foo-bar"})
-	Test(t, cmp, "-foo ", []string{"false"})
-	Test(t, cmp, "-foo=", []string{"false"})
-	Test(t, cmp, "-bar ", []string{"-foo", "-bar", "-foo-bar", "-h"})
-	Test(t, cmp, "-bar=", []string{})
+	Test(t, cmp, "", []string{"-f", "-b", "--foo", "--bar", "--foo-bar"})
+	Test(t, cmp, "-", []string{"-f", "-b", "--foo", "--bar", "--foo-bar"})
+	Test(t, cmp, "--foo", []string{"--foo", "--foo-bar"})
+	Test(t, cmp, "--bar", []string{"--bar"})
+	Test(t, cmp, "--bar=", []string{})
+	Test(t, cmp, "--foo ", []string{"false"})
+	Test(t, cmp, "--foo=", []string{"false"})
 }
 
 type boolValue bool

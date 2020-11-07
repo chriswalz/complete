@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/posener/complete/v2/install"
-	"github.com/posener/complete/v2/internal/arg"
-	"github.com/posener/complete/v2/internal/tokener"
+	"github.com/chriswalz/complete/v2/install"
+	"github.com/chriswalz/complete/v2/internal/arg"
+	"github.com/chriswalz/complete/v2/internal/tokener"
 )
 
 // Completer is an interface that a command line should implement in order to get bash completion.
@@ -77,6 +77,9 @@ func Complete(name string, cmd Completer) {
 	i, err := strconv.Atoi(point)
 	if err != nil {
 		panic("COMP_POINT env should be integer, got: " + point)
+	}
+	if i > len(line) {
+		i = len(line)
 	}
 
 	// Parse the command line up to the completion point.
@@ -216,7 +219,15 @@ func (c completer) suggestFlag(dashes, prefix string) []string {
 		c.iterateStack(func(cmd Completer) {
 			// Suggest all flags with the given prefix.
 			for _, name := range cmd.FlagList() {
-				if strings.HasPrefix(name, prefix) {
+				if len(prefix) == 0 {
+					if len(name) >= 2 {
+						options = append(options, "--"+name)
+					} else {
+						options = append(options, "-"+name)
+					}
+				} else if dashes == "-" && len(name) == 1 && strings.HasPrefix(name, prefix) {
+					options = append(options, dashes+name)
+				} else if dashes == "--" && len(name) >= 2 && strings.HasPrefix(name, prefix) {
 					options = append(options, dashes+name)
 				}
 			}
@@ -257,23 +268,14 @@ func (c completer) iterateStack(f func(Completer)) {
 
 func suggest(dashes, prefix string, collect func(prefix string) []string) []string {
 	options := collect(prefix)
-	help, helpMatched := helpFlag(dashes + prefix)
 	// In case that something matched:
 	if len(options) > 0 {
-		if strings.HasPrefix(help, dashes+prefix) {
-			options = append(options, help)
-		}
 		return options
-	}
-
-	if helpMatched {
-		return []string{help}
 	}
 
 	// Nothing matched.
 	options = collect("")
-	help, _ = helpFlag(dashes)
-	return append(options, help)
+	return append(options)
 }
 
 func filterByPrefix(prefix string, options ...string) []string {
