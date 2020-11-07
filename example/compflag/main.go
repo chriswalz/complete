@@ -1,4 +1,4 @@
-// compflag shows how to use the github.com/posener/complete/v2/compflag package to have auto bash
+// compflag shows how to use the github.com/chriswalz/complete/v2/compflag package to have auto bash
 // completion for a defined set of flags.
 package main
 
@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/posener/complete/v2/compflag"
-	"github.com/posener/complete/v2/predict"
+	"github.com/chriswalz/complete/v2/compflag"
+	"github.com/chriswalz/complete/v2/predict"
 )
 
 var (
