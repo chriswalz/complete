@@ -1,8 +1,8 @@
 # complete
 
-[![Build Status](https://travis-ci.org/posener/complete.svg?branch=master)](https://travis-ci.org/posener/complete)
-[![codecov](https://codecov.io/gh/posener/complete/branch/master/graph/badge.svg)](https://codecov.io/gh/posener/complete)
-[![GoDoc](https://img.shields.io/badge/pkg.go.dev-doc-blue)](http://pkg.go.dev/github.com/posener/complete)
+[![Build Status](https://travis-ci.org/chriswalz/complete.svg?branch=master)](https://travis-ci.org/chriswalz/complete)
+[![codecov](https://codecov.io/gh/chriswalz/complete/branch/master/graph/badge.svg)](https://codecov.io/gh/chriswalz/complete)
+[![GoDoc](https://img.shields.io/badge/pkg.go.dev-doc-blue)](http://pkg.go.dev/github.com/chriswalz/complete)
 
 Package complete is everything for bash completion and Go.
 
@@ -33,7 +33,7 @@ Install:
 1. Type in your shell:
 
 ```go
-go get -u github.com/posener/complete/v2/gocomplete
+go get -u github.com/chriswalz/complete/v2/gocomplete
 COMP_INSTALL=1 gocomplete
 ```
 
@@ -68,8 +68,8 @@ Add bash completion capabilities to any Go program. See [./example/command](./ex
 ```go
  import (
  	"flag"
- 	"github.com/posener/complete/v2"
- 	"github.com/posener/complete/v2/predict"
+ 	"github.com/chriswalz/complete/v2"
+ 	"github.com/chriswalz/complete/v2/predict"
  )
  var (
  	// Add variables to the program.
@@ -101,7 +101,7 @@ To use this feature, simply call `complete.CommandLine` before `flag.Parse`. (Se
 ```diff
  import (
  	"flag"
-+	"github.com/posener/complete/v2"
++	"github.com/chriswalz/complete/v2"
  )
  var (
  	// Define flags here...
@@ -116,14 +116,14 @@ To use this feature, simply call `complete.CommandLine` before `flag.Parse`. (Se
 
 If flag value completion is desired, it can be done by providing the standard library `flag.Var`
 function a `flag.Value` that also implements the `complete.Predictor` interface. For standard
-flag with values, it is possible to use the `github.com/posener/complete/v2/compflag` package.
+flag with values, it is possible to use the `github.com/chriswalz/complete/v2/compflag` package.
 (See [./example/compflag](./example/compflag)).
 
 ```diff
  import (
  	"flag"
-+	"github.com/posener/complete/v2"
-+	"github.com/posener/complete/v2/compflag"
++	"github.com/chriswalz/complete/v2"
++	"github.com/chriswalz/complete/v2/compflag"
  )
  var (
  	// Define flags here...
@@ -152,7 +152,7 @@ For command line bash completion testing use the `complete.Test` function.
 
 * [example/command](./example/command): command shows how to have bash completion to an arbitrary Go program using the `complete.Command` struct.
 
-* [example/compflag](./example/compflag): compflag shows how to use the github.com/posener/complete/v2/compflag package to have auto bash completion for a defined set of flags.
+* [example/compflag](./example/compflag): compflag shows how to use the github.com/chriswalz/complete/v2/compflag package to have auto bash completion for a defined set of flags.
 
 * [example/stdlib](./example/stdlib): stdlib shows how to have flags bash completion to an arbitrary Go program that uses the standard library flag package.
 
@@ -163,4 +163,4 @@ For command line bash completion testing use the `complete.Test` function.
 * [predict](./predict): Package predict provides helper functions for completion predictors.
 
 ---
-Readme created from Go doc with [goreadme](https://github.com/posener/goreadme)
+Readme created from Go doc with [goreadme](https://github.com/chriswalz/goreadme)

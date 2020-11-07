@@ -1,4 +1,4 @@
-module github.com/posener/complete/v2
+module github.com/chriswalz/complete/v2
 
 require (
 	github.com/hashicorp/go-multierror v1.0.0

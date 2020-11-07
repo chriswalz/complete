@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/posener/complete/v2/predict"
+	"github.com/chriswalz/complete/v2/predict"
 )
 
 // predictPackages completes packages in the directory pointed by a.Last
@@ -32,8 +32,8 @@ func predictPackages(prefix string) (prediction []string) {
 
 func predictLocalAndSystem(prefix string) []string {
 	localDirs := predict.FilesSet(listPackages(directory(prefix))).Predict(prefix)
-	// System directories are not actual file names, for example: 'github.com/posener/complete' could
-	// be the argument, but the actual filename is in $GOPATH/src/github.com/posener/complete'. this
+	// System directories are not actual file names, for example: 'github.com/chriswalz/complete' could
+	// be the argument, but the actual filename is in $GOPATH/src/github.com/chriswalz/complete'. this
 	// is the reason to use the PredictSet and not the PredictDirs in this case.
 	s := systemDirs(prefix)
 	sysDirs := predict.Set(s).Predict(prefix)
