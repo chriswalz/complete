@@ -2,7 +2,7 @@
 //
 // Usage
 //
-// 	import "github.com/posener/complete/v2/compflag"
+// 	import "github.com/chriswalz/complete/v2/compflag"
 //
 // 	var (
 // 		// Define flags...
@@ -18,7 +18,7 @@
 //
 // 	import (
 // 		"flag"
-// 		"github.com/posener/complete/v2/compflag"
+// 		"github.com/chriswalz/complete/v2/compflag"
 // 	)
 //
 // 	var (
@@ -40,7 +40,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/posener/complete/v2"
+	"github.com/chriswalz/complete/v2"
 )
 
 // FlagSet is bash completion enabled flag.FlagSet.
