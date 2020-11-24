@@ -155,10 +155,6 @@ reset:
 }
 
 func (c completer) suggestSubCommands(prefix string) []string {
-	if len(prefix) > 0 && prefix[0] == '-' {
-		help, _ := helpFlag(prefix)
-		return []string{help}
-	}
 	subs := c.SubCmdList()
 	return suggest("", prefix, func(prefix string) []string {
 		var options []string
@@ -270,23 +266,10 @@ func (c completer) iterateStack(f func(Completer)) {
 
 func suggest(dashes, prefix string, collect func(prefix string) []string) []string {
 	options := collect(prefix)
-	help, helpMatched := helpFlag(dashes + prefix)
-	// In case that something matched:
-	if len(options) > 0 {
-		if strings.HasPrefix(help, dashes+prefix) {
-			options = append(options, help)
-		}
-		return options
+	if options == nil || len(options) == 0 {
+		return collect("")
 	}
-
-	if helpMatched {
-		return []string{help}
-	}
-
-	// Nothing matched.
-	options = collect("")
-	help, _ = helpFlag(dashes)
-	return append(options, help)
+	return append(options)
 }
 
 func filterByPrefix(prefix string, options ...string) []string {
@@ -336,18 +319,4 @@ func hasPrefix(s, prefix string) (string, bool) {
 	}
 
 	return token.Closed(), true
-}
-
-// helpFlag returns either "-h", "-help" or "--help".
-func helpFlag(prefix string) (string, bool) {
-	if prefix == "" || prefix == "-" || prefix == "-h" {
-		return "-h", true
-	}
-	if strings.HasPrefix("--help", prefix) {
-		return "--help", true
-	}
-	if strings.HasPrefix(prefix, "--") {
-		return "--help", false
-	}
-	return "-help", false
 }

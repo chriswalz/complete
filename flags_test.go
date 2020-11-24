@@ -21,11 +21,11 @@ func TestFlags(t *testing.T) {
 	fs.String("foo-bar", "", "")
 	cmp := FlagSet(fs)
 
-	Test(t, cmp, "", []string{"-foo", "-bar", "-foo-bar", "-h"})
+	Test(t, cmp, "", []string{"-foo", "-bar", "-foo-bar"})
 	Test(t, cmp, "-foo", []string{"-foo", "-foo-bar"})
 	Test(t, cmp, "-foo ", []string{"false"})
 	Test(t, cmp, "-foo=", []string{"false"})
-	Test(t, cmp, "-bar ", []string{"-foo", "-bar", "-foo-bar", "-h"})
+	Test(t, cmp, "-bar ", []string{"-foo", "-bar", "-foo-bar"})
 	Test(t, cmp, "-bar=", []string{})
 }
 
