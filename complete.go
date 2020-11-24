@@ -100,6 +100,16 @@ func Complete(name string, cmd Completer) {
 	exit(0)
 }
 
+func CompleteLine(line string, cmd *Command) ([]string, error) {
+	args := arg.Parse(line)
+
+	// The first word is the current command name.
+	args = args[1:]
+
+	// Run the completion algorithm.
+	return completer{Completer: cmd, args: args}.complete()
+}
+
 type completer struct {
 	Completer
 	args  []arg.Arg
