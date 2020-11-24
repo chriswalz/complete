@@ -4,6 +4,7 @@ package complete
 // not have a good binding to the `Completer` interface, or to use a Go program as complete binary
 // for another executable (see ./gocomplete as an example.)
 type Command struct {
+	Description string
 	// Sub is map of sub commands of the current command. The key refer to the sub command name, and
 	// the value is it's command descriptive struct.
 	Sub map[string]*Command
