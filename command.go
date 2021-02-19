@@ -18,7 +18,6 @@ type Command struct {
 
 // Complete runs the completion of the described command.
 func (c *Command) Complete(name string) {
-	Complete(name, c)
 }
 
 func (c *Command) SubCmdList() []string {

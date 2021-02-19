@@ -6,7 +6,6 @@ import (
 
 // Complete default command line flag set defined by the standard library.
 func CommandLine() {
-	Complete(flag.CommandLine.Name(), FlagSet(flag.CommandLine))
 }
 
 // FlagSet returns a completer for a given standard library `flag.FlagSet`. It completes flag names,
