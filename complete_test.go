@@ -34,6 +34,12 @@ var testCmd = &Command{
 		"args": {
 			Args: set{"a", "a a", "b"},
 		},
+		"checkout": {
+			Flags: map[string]Predictor{
+				"quiet": nil,
+			},
+			Args: set{"master", "another-branch"},
+		},
 	},
 }
 
@@ -117,6 +123,7 @@ func TestCompleter(t *testing.T) {
 
 		// Complete positional arguments from a parent command
 		{args: "sub1 sub12 arg", want: []string{"arg1", "arg2"}},
+		{args: "checkout ", want: []string{"arg1", "arg2"}},
 
 		// Test help
 
