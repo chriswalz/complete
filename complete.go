@@ -58,7 +58,7 @@ var (
 // Complete the command line arguments for the given command in the case that the program
 // was invoked with COMP_LINE and COMP_POINT environment variables. In that case it will also
 // `os.Exit()`. The program name should be provided for installation purposes.
-func Complete(name string, cmd Completer) {
+func Complete(name string, cmdCompletionTree *AutoCompleteCLI) {
 	var (
 		line        = getEnv("COMP_LINE")
 		point       = getEnv("COMP_POINT")
@@ -83,18 +83,16 @@ func Complete(name string, cmd Completer) {
 	}
 
 	// Parse the command line up to the completion point.
-	args := arg.Parse(line[:i])
+	// args := arg.Parse(line[:i])
 
-	// The first word is the current command name.
-	args = args[1:]
 
 	// Run the completion algorithm.
-	options, err := completer{Completer: cmd, args: args}.complete()
+	options, err := AutoComplete(line[:i], cmdCompletionTree )
 	if err != nil {
 		fmt.Fprintln(out, "\n"+err.Error())
 	} else {
 		for _, option := range options {
-			fmt.Fprintln(out, option)
+			fmt.Fprintln(out, option.name)
 		}
 	}
 	exit(0)

@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-var bitAutoCompleteTree = &AutoCompleteCLI{
+var gitAutoCompleteTree = &AutoCompleteCLI{
 	Desc: "bit command",
 	Sub: map[string]*AutoCompleteCLI{
 		"checkout": {
@@ -50,6 +50,20 @@ var bitAutoCompleteTree = &AutoCompleteCLI{
 				},
 			},
 		},
+		"commit": {
+			Desc: "record changes to repository",
+			Flags: map[string]*AutoCompleteCLI{
+				"a": {
+					Desc: "stage all modified and deleted paths",
+				},
+				"m": {
+					Desc: "use the given message as the commit message",
+					Args: map[string]*AutoCompleteCLI{
+						`"`: {Desc: "your commit message"},
+					},
+				},
+			},
+		},
 
 	},
 }
@@ -67,6 +81,7 @@ func TestNewAutoComplete(t *testing.T) {
 		{"git checkout --qui", []Suggestion{
 			{"quiet", "quiet flag desc"},
 		}},
+		{"git checkout -qui", []Suggestion{}},
 		{"git ", []Suggestion{
 			{"checkout", "checkout changes branches"},
 			{"remote", "manage set of tracked repositories"},
@@ -96,12 +111,22 @@ func TestNewAutoComplete(t *testing.T) {
 			{"v1", "v1 porcelain"},
 			{"v2", "v2 porcelain"},
 		}},
+		{`git commit -`, []Suggestion{
+			{"a", "stage all modified and deleted paths"},
+			{"m", "use the given message as the commit message"},
+		}},
+		{`git commit -a`, []Suggestion{
+			{"a", "stage all modified and deleted paths"},
+			{"m", "use the given message as the commit message"},
+		}},
+		{`git commit -am`, []Suggestion{}},
+		{`git commit -a "an awesome commit value" `, []Suggestion{}},
 	}
 
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%v", tt.text)
 		t.Run(testname, func(t *testing.T) {
-			got := AutoComplete(tt.text, bitAutoCompleteTree)
+			got := AutoComplete(tt.text, gitAutoCompleteTree)
 			for _, want := range tt.wants{
 				assert.Contains(t, got, want)
 			}

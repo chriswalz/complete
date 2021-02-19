@@ -1,6 +1,7 @@
 package complete
 
 import (
+	"github.com/google/shlex"
 	"strings"
 )
 
@@ -16,14 +17,18 @@ type Suggestion struct {
 	Desc string
 }
 
-func AutoComplete(text string, completionTree *AutoCompleteCLI) []Suggestion {
+func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, error) {
 	var prev *AutoCompleteCLI = nil
 	curr := completionTree
 	curr = prev
 	curr = completionTree
-	fields := strings.Fields(strings.TrimSpace(text))
+
+	fields, err := shlex.Split(strings.TrimSpace(text))
+	if err != nil {
+		return nil, err
+	}
 	last := fields[len(fields)-1]
-	for _, field := range fields {
+	for _, field := range fields[1:] {
 		if strings.HasPrefix(field, "-") {
 			continue
 		}
@@ -37,7 +42,9 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) []Suggestion {
 	}
 	s := make([]Suggestion, 0, 20)
 	// ends with sub & space
-	if strings.HasSuffix(text, " ") {
+	if curr == nil {
+		return s, nil
+	} else if strings.HasSuffix(text, " ") {
 		if curr.Args != nil {
 			for k, v := range curr.Args {
 				s = append(s, Suggestion{
@@ -56,11 +63,20 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) []Suggestion {
 		}
 
 	} else if strings.HasPrefix(last, "-") { // ends with flag
+		hasTwoDashes := strings.HasPrefix(last, "--")
 		for k, v := range curr.Flags {
-			s = append(s, Suggestion{
-				name: k,
-				Desc: v.Desc,
-			})
+			if hasTwoDashes && len(k) > 1{
+				s = append(s, Suggestion{
+					name: k,
+					Desc: v.Desc,
+				})
+			}
+			if !hasTwoDashes && len(k) == 1 {
+				s = append(s, Suggestion{
+					name: k,
+					Desc: v.Desc,
+				})
+			}
 		}
 	}
 	if !strings.HasPrefix(last, "-") && !strings.HasSuffix(text, " ") {
@@ -83,10 +99,10 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) []Suggestion {
 	}
 	// ends with = (suggest flag args)
 	if strings.HasPrefix(last, "-") && strings.HasSuffix(last, "=") {
-		noDash := strings.TrimPrefix(last, "-")
-		noDash = strings.TrimPrefix(noDash, "-")
-		noDash = strings.TrimSuffix(noDash, "=")
-		flagCompleter := curr.Flags[noDash]
+		flagName := strings.TrimPrefix(last, "-")
+		flagName = strings.TrimPrefix(flagName, "-")
+		flagName = strings.TrimSuffix(flagName, "=")
+		flagCompleter := curr.Flags[flagName]
 		for k, v := range flagCompleter.Args {
 				s = append(s, Suggestion{
 					name: k,
@@ -104,5 +120,5 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) []Suggestion {
 	// ends with flag & space
 	// ends with sub
 
-	return s
+	return s, nil
 }
