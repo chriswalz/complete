@@ -12,7 +12,7 @@ var gitAutoCompleteTree = &AutoCompleteCLI{
 		"checkout": {
 			Desc: "checkout changes branches",
 			Flags: map[string]*AutoCompleteCLI{
-				"quiet": {Desc: "quiet flag desc"},
+				"quiet": {Desc: "suppress progress reporting"},
 			},
 			Args: map[string]*AutoCompleteCLI{
 				"master": {Desc: ".branch description for master."},
@@ -68,7 +68,7 @@ var gitAutoCompleteTree = &AutoCompleteCLI{
 	},
 }
 
-func TestNewAutoComplete(t *testing.T) {
+func TestGitAutoComplete(t *testing.T) {
 	var tests = []struct {
 		text string
 		wants []Suggestion
@@ -79,7 +79,7 @@ func TestNewAutoComplete(t *testing.T) {
 		}},
 		{"git checkout --quiet non-existant", []Suggestion{}},
 		{"git checkout --qui", []Suggestion{
-			{"quiet", "quiet flag desc"},
+			{"quiet", "suppress progress reporting"},
 		}},
 		{"git checkout -qui", []Suggestion{}},
 		{"git ", []Suggestion{
@@ -126,12 +126,103 @@ func TestNewAutoComplete(t *testing.T) {
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%v", tt.text)
 		t.Run(testname, func(t *testing.T) {
-			got := AutoComplete(tt.text, gitAutoCompleteTree)
+			got, err := AutoComplete(tt.text, gitAutoCompleteTree)
+			if err != nil {
+				t.Error(err)
+			}
 			for _, want := range tt.wants{
 				assert.Contains(t, got, want)
 			}
 			if len(got) != 0 && len(tt.wants) == 0 {
 				assert.FailNow(t, "yikes there should 0 suggestions in this case")
+			}
+		})
+
+	}
+}
+
+func TestBitCLIAutoComplete(t *testing.T) {
+	var tests = []struct {
+		text string
+		wants []Suggestion
+	}{
+		{"bit checkout --quiet ", []Suggestion{
+			{"master", ".branch description for master."},
+			{"another-branch", "some mildly interesting desc"},
+		}},
+		{"bit checkout --quiet non-existant", []Suggestion{}},
+		{"bit checkout --qui", []Suggestion{
+			{"quiet", "suppress progress reporting"},
+		}},
+		{"bit checkout --yik", []Suggestion{
+		}},
+		// What there is a single dash just show all single dash flags
+		{"bit checkout -zzz", []Suggestion{
+			{"q", "suppress progress reporting"},
+			{"2", "check out stage #2 for unmerged paths"},
+		}},
+		{"bit ", []Suggestion{
+			{"checkout", "checkout changes branches"},
+			{"remote", "Manage set of tracked repositories"},
+		}},
+		{"bit remot", []Suggestion{
+			{"remote", "Manage set of tracked repositories"},
+		}},
+		{"bit remote  ", []Suggestion{
+			{"add", "add a new remote"},
+			{"get-url", "retrieves the URLs for a remote"},
+		}},
+		{"bit remote a", []Suggestion{
+			{"add", "add a new remote"},
+		}},
+		{"bit remote add ", []Suggestion{
+			{"origin", ""},
+			{"upstream", ""},
+		}},
+		{"bit remote add --fetch ", []Suggestion{
+			{"origin", ""},
+			{"upstream", ""},
+		}},
+		{"bit status --porcela", []Suggestion{
+			{"porcelain", "produce machine-readable output"},
+		}},
+		{"bit status --porcelain=", []Suggestion{
+			{"v1", "v1 porcelain"},
+			{"v2", "v2 porcelain"},
+		}},
+		{`bit commit -`, []Suggestion{
+			{"a", "stage all modified and deleted paths"},
+			{"m", "use the given message as the commit message"},
+		}},
+		{`bit commit -a`, []Suggestion{
+			{"a", "stage all modified and deleted paths"},
+			{"m", "use the given message as the commit message"},
+		}},
+		// What there is a single dash just show all single dash flags
+		{`bit commit -am`, []Suggestion{
+			{"a", "stage all modified and deleted paths"},
+			{"m", "use the given message as the commit message"},
+		}},
+		{`bit commit -a "an awesome commit value" `, []Suggestion{}},
+	}
+
+	bitCompleteTree := getBitTree()
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("%v", tt.text)
+		t.Run(testname, func(t *testing.T) {
+			got, err := AutoComplete(tt.text, bitCompleteTree)
+			if err != nil {
+				t.Error(err)
+			}
+			for _, want := range tt.wants{
+				assert.Contains(t, got, want)
+			}
+			if len(got) != 0 && len(tt.wants) == 0 {
+				t.Logf("%v", got)
+				t.Logf("%v", tt.wants)
+				assert.FailNow(t, "yikes there should 0 suggestions in this case")
+
 			}
 		})
 

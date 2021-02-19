@@ -9,11 +9,12 @@ type AutoCompleteCLI struct {
 	Flags map[string]*AutoCompleteCLI
 	Args  map[string]*AutoCompleteCLI
 	Sub   map[string]*AutoCompleteCLI
+	Dynamic func(prefix string) []AutoCompleteCLI
 	Desc  string
 }
 
 type Suggestion struct {
-	name string
+	Name string
 	Desc string
 }
 
@@ -48,7 +49,7 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, e
 		if curr.Args != nil {
 			for k, v := range curr.Args {
 				s = append(s, Suggestion{
-					name: k,
+					Name: k,
 					Desc: v.Desc,
 				})
 			}
@@ -56,7 +57,7 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, e
 		if curr.Sub != nil {
 			for k, v := range curr.Sub {
 				s = append(s, Suggestion{
-					name: k,
+					Name: k,
 					Desc: v.Desc,
 				})
 			}
@@ -64,16 +65,18 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, e
 
 	} else if strings.HasPrefix(last, "-") { // ends with flag
 		hasTwoDashes := strings.HasPrefix(last, "--")
+		searchTerm := strings.TrimPrefix(last, "-")
+		searchTerm = strings.TrimPrefix(searchTerm, "-")
 		for k, v := range curr.Flags {
-			if hasTwoDashes && len(k) > 1{
-				s = append(s, Suggestion{
-					name: k,
+			if hasTwoDashes && len(k) > 1 && (strings.HasPrefix(k, searchTerm) || searchTerm == ""){
+					s = append(s, Suggestion{
+					Name: k,
 					Desc: v.Desc,
 				})
 			}
 			if !hasTwoDashes && len(k) == 1 {
 				s = append(s, Suggestion{
-					name: k,
+					Name: k,
 					Desc: v.Desc,
 				})
 			}
@@ -83,7 +86,7 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, e
 		for k, v := range curr.Args {
 			if strings.HasPrefix(k, last) {
 				s = append(s, Suggestion{
-					name: k,
+					Name: k,
 					Desc: v.Desc,
 				})
 			}
@@ -91,7 +94,7 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, e
 		for k, v := range curr.Sub {
 			if strings.HasPrefix(k, last) {
 				s = append(s, Suggestion{
-					name: k,
+					Name: k,
 					Desc: v.Desc,
 				})
 			}
@@ -105,13 +108,13 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, e
 		flagCompleter := curr.Flags[flagName]
 		for k, v := range flagCompleter.Args {
 				s = append(s, Suggestion{
-					name: k,
+					Name: k,
 					Desc: v.Desc,
 				})
 		}
 		for k, v := range flagCompleter.Sub {
 				s = append(s, Suggestion{
-					name: k,
+					Name: k,
 					Desc: v.Desc,
 				})
 		}
