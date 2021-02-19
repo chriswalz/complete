@@ -6,29 +6,29 @@ import (
 	"testing"
 )
 
-var gitAutoCompleteTree = &AutoCompleteCLI{
+var gitAutoCompleteTree = &CompTree{
 	Desc: "bit command",
-	Sub: map[string]*AutoCompleteCLI{
+	Sub: map[string]*CompTree{
 		"checkout": {
 			Desc: "checkout changes branches",
-			Flags: map[string]*AutoCompleteCLI{
+			Flags: map[string]*CompTree{
 				"quiet": {Desc: "suppress progress reporting"},
 			},
-			Args: map[string]*AutoCompleteCLI{
+			Args: map[string]*CompTree{
 				"master": {Desc: ".branch description for master."},
 				"another-branch": {Desc: "some mildly interesting desc"},
 			},
 		},
 		"remote": {
 			Desc: "manage set of tracked repositories",
-			Args: map[string]*AutoCompleteCLI{
+			Args: map[string]*CompTree{
 				"add": {
 					Desc: "add a new remote",
-					Args: map[string]*AutoCompleteCLI{
+					Args: map[string]*CompTree{
 						"origin": {Desc: ""},
 						"upstream": {Desc: ""},
 					},
-					Flags: map[string]*AutoCompleteCLI{
+					Flags: map[string]*CompTree{
 						"fetch": {
 							Desc: "run git fetch on new remote after it has been created",
 						},
@@ -40,10 +40,10 @@ var gitAutoCompleteTree = &AutoCompleteCLI{
 		},
 		"status": {
 			Desc: "show working-tree status",
-			Flags: map[string]*AutoCompleteCLI{
+			Flags: map[string]*CompTree{
 				"porcelain": {
 					Desc: "produce machine-readable output",
-					Args: map[string]*AutoCompleteCLI{
+					Args: map[string]*CompTree{
 						"v1": {Desc: "v1 porcelain"},
 						"v2": {Desc: "v2 porcelain"},
 					},
@@ -52,13 +52,13 @@ var gitAutoCompleteTree = &AutoCompleteCLI{
 		},
 		"commit": {
 			Desc: "record changes to repository",
-			Flags: map[string]*AutoCompleteCLI{
+			Flags: map[string]*CompTree{
 				"a": {
 					Desc: "stage all modified and deleted paths",
 				},
 				"m": {
 					Desc: "use the given message as the commit message",
-					Args: map[string]*AutoCompleteCLI{
+					Args: map[string]*CompTree{
 						`"`: {Desc: "your commit message"},
 					},
 				},

@@ -5,11 +5,12 @@ import (
 	"strings"
 )
 
-type AutoCompleteCLI struct {
-	Flags map[string]*AutoCompleteCLI
-	Args  map[string]*AutoCompleteCLI
-	Sub   map[string]*AutoCompleteCLI
-	Dynamic func(prefix string) []AutoCompleteCLI
+// a tree representation of CLI commands & sub commands
+type CompTree struct {
+	Flags map[string]*CompTree
+	Args  map[string]*CompTree
+	Sub   map[string]*CompTree
+	Dynamic func(prefix string) []CompTree
 	Desc  string
 }
 
@@ -18,8 +19,8 @@ type Suggestion struct {
 	Desc string
 }
 
-func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, error) {
-	var prev *AutoCompleteCLI = nil
+func AutoComplete(text string, completionTree *CompTree) ([]Suggestion, error) {
+	var prev *CompTree = nil
 	curr := completionTree
 	curr = prev
 	curr = completionTree

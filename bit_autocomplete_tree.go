@@ -3,7 +3,7 @@ package complete
 
 
 
-func getBitTree() *AutoCompleteCLI {
+func getBitTree() *CompTree {
 	var bitCompleteTree = &b
 	for k, v := range descriptionMap {
 		if bitCompleteTree.Sub[k] == nil {
