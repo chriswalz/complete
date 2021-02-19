@@ -2,8 +2,8 @@
 package main
 
 import (
-	"github.com/chriswalz/complete/v2"
-	"github.com/chriswalz/complete/v2/predict"
+	"github.com/chriswalz/complete/v3"
+	"github.com/chriswalz/complete/v3/predict"
 )
 
 var (

@@ -3,7 +3,7 @@ package arg
 import (
 	"strings"
 
-	"github.com/chriswalz/complete/v2/internal/tokener"
+	"github.com/chriswalz/complete/v3/internal/tokener"
 )
 
 // Arg is typed a command line argument.

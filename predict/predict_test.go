@@ -3,7 +3,7 @@ package predict
 import (
 	"testing"
 
-	"github.com/chriswalz/complete/v2"
+	"github.com/chriswalz/complete/v3"
 	"github.com/stretchr/testify/assert"
 )
 

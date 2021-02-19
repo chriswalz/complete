@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/chriswalz/complete/v2/predict"
+	"github.com/chriswalz/complete/v3/predict"
 )
 
 // String if a flag function for a flag of type string.

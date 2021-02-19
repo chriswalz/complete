@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/chriswalz/complete/v2"
+	"github.com/chriswalz/complete/v3"
 )
 
 var (

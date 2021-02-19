@@ -33,7 +33,7 @@ Install:
 1. Type in your shell:
 
 ```go
-go get -u github.com/chriswalz/complete/v2/gocomplete
+go get -u github.com/chriswalz/complete/v3/gocomplete
 COMP_INSTALL=1 gocomplete
 ```
 
@@ -68,8 +68,8 @@ Add bash completion capabilities to any Go program. See [./example/command](./ex
 ```go
  import (
  	"flag"
- 	"github.com/chriswalz/complete/v2"
- 	"github.com/chriswalz/complete/v2/predict"
+ 	"github.com/chriswalz/complete/v3"
+ 	"github.com/chriswalz/complete/v3/predict"
  )
  var (
  	// Add variables to the program.
@@ -101,7 +101,7 @@ To use this feature, simply call `complete.CommandLine` before `flag.Parse`. (Se
 ```diff
  import (
  	"flag"
-+	"github.com/chriswalz/complete/v2"
++	"github.com/chriswalz/complete/v3"
  )
  var (
  	// Define flags here...
@@ -116,14 +116,14 @@ To use this feature, simply call `complete.CommandLine` before `flag.Parse`. (Se
 
 If flag value completion is desired, it can be done by providing the standard library `flag.Var`
 function a `flag.Value` that also implements the `complete.Predictor` interface. For standard
-flag with values, it is possible to use the `github.com/chriswalz/complete/v2/compflag` package.
+flag with values, it is possible to use the `github.com/chriswalz/complete/v3/compflag` package.
 (See [./example/compflag](./example/compflag)).
 
 ```diff
  import (
  	"flag"
-+	"github.com/chriswalz/complete/v2"
-+	"github.com/chriswalz/complete/v2/compflag"
++	"github.com/chriswalz/complete/v3"
++	"github.com/chriswalz/complete/v3/compflag"
  )
  var (
  	// Define flags here...
@@ -152,7 +152,7 @@ For command line bash completion testing use the `complete.Test` function.
 
 * [example/command](./example/command): command shows how to have bash completion to an arbitrary Go program using the `complete.Command` struct.
 
-* [example/compflag](./example/compflag): compflag shows how to use the github.com/chriswalz/complete/v2/compflag package to have auto bash completion for a defined set of flags.
+* [example/compflag](./example/compflag): compflag shows how to use the github.com/chriswalz/complete/v3/compflag package to have auto bash completion for a defined set of flags.
 
 * [example/stdlib](./example/stdlib): stdlib shows how to have flags bash completion to an arbitrary Go program that uses the standard library flag package.
 

@@ -27,7 +27,7 @@ Install:
 
 1. Type in your shell:
 
-	go get -u github.com/chriswalz/complete/v2/gocomplete
+	go get -u github.com/chriswalz/complete/v3/gocomplete
 	COMP_INSTALL=1 gocomplete
 
 2. Restart your shell
@@ -60,8 +60,8 @@ Add bash completion capabilities to any Go program. See ./example/command.
 
  import (
  	"flag"
- 	"github.com/chriswalz/complete/v2"
- 	"github.com/chriswalz/complete/v2/predict"
+ 	"github.com/chriswalz/complete/v3"
+ 	"github.com/chriswalz/complete/v3/predict"
  )
  var (
  	// Add variables to the program.
@@ -91,7 +91,7 @@ To use this feature, simply call `complete.CommandLine` before `flag.Parse`. (Se
 
   import (
   	"flag"
- +	"github.com/chriswalz/complete/v2"
+ +	"github.com/chriswalz/complete/v3"
   )
   var (
   	// Define flags here...
@@ -105,13 +105,13 @@ To use this feature, simply call `complete.CommandLine` before `flag.Parse`. (Se
 
 If flag value completion is desired, it can be done by providing the standard library `flag.Var`
 function a `flag.Value` that also implements the `complete.Predictor` interface. For standard
-flag with values, it is possible to use the `github.com/chriswalz/complete/v2/compflag` package.
+flag with values, it is possible to use the `github.com/chriswalz/complete/v3/compflag` package.
 (See ./example/compflag).
 
   import (
   	"flag"
- +	"github.com/chriswalz/complete/v2"
- +	"github.com/chriswalz/complete/v2/compflag"
+ +	"github.com/chriswalz/complete/v3"
+ +	"github.com/chriswalz/complete/v3/compflag"
   )
   var (
   	// Define flags here...

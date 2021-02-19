@@ -2,7 +2,7 @@ package predict
 
 import (
 	"fmt"
-	"github.com/chriswalz/complete/v2"
+	"github.com/chriswalz/complete/v3"
 	"strings"
 )
 

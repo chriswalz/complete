@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/chriswalz/complete/v2/internal/arg"
+	"github.com/chriswalz/complete/v3/internal/arg"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -1,7 +1,7 @@
 // Package predict provides helper functions for completion predictors.
 package predict
 
-import "github.com/chriswalz/complete/v2"
+import "github.com/chriswalz/complete/v3"
 
 // Set predicts a set of predefined values.
 type Set []string

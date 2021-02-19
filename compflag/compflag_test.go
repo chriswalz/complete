@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/chriswalz/complete/v2"
-	"github.com/chriswalz/complete/v2/predict"
+	"github.com/chriswalz/complete/v3"
+	"github.com/chriswalz/complete/v3/predict"
 	"github.com/stretchr/testify/assert"
 )
 
