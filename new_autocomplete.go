@@ -29,8 +29,13 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) ([]Suggestion, e
 		return nil, err
 	}
 	last := fields[len(fields)-1]
-	for _, field := range fields[1:] {
+	// i.e. in "git checkout --fie", remove "git"
+	fields = fields[1:]
+	for i, field := range fields {
 		if strings.HasPrefix(field, "-") {
+			continue
+		}
+		if i == len(fields) - 1 && !strings.HasSuffix(text, " ") {
 			continue
 		}
 		if curr.Sub[field] != nil {

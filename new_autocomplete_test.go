@@ -162,7 +162,7 @@ func TestBitCLIAutoComplete(t *testing.T) {
 			{"2", "check out stage #2 for unmerged paths"},
 		}},
 		{"bit ", []Suggestion{
-			{"checkout", "checkout changes branches"},
+			{"checkout", "Switch branches or restore working tree files"},
 			{"remote", "Manage set of tracked repositories"},
 		}},
 		{"bit remot", []Suggestion{
@@ -189,6 +189,12 @@ func TestBitCLIAutoComplete(t *testing.T) {
 		{"bit status --porcelain=", []Suggestion{
 			{"v1", "v1 porcelain"},
 			{"v2", "v2 porcelain"},
+		}},
+		{`bit co`, []Suggestion{
+			{"commit", "Record changes to the repository"},
+		}},
+		{`bit commit`, []Suggestion{
+			{"commit", "Record changes to the repository"},
 		}},
 		{`bit commit -`, []Suggestion{
 			{"a", "stage all modified and deleted paths"},
