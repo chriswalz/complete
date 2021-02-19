@@ -8,9 +8,10 @@ import (
 // a tree representation of CLI commands & sub commands
 type CompTree struct {
 	Flags map[string]*CompTree
+	// FIXME: Args & Sub may be able to be combined since thus far there doesn't seem to necessitate a difference
 	Args  map[string]*CompTree
 	Sub   map[string]*CompTree
-	Dynamic func(prefix string) []CompTree
+	Dynamic func(prefix string) []Suggestion
 	Desc  string
 }
 
@@ -68,6 +69,9 @@ func AutoComplete(text string, completionTree *CompTree) ([]Suggestion, error) {
 				})
 			}
 		}
+		if curr.Dynamic != nil {
+			s = append(s, curr.Dynamic("")...)
+		}
 
 	} else if strings.HasPrefix(last, "-") { // ends with flag
 		hasTwoDashes := strings.HasPrefix(last, "--")
@@ -103,6 +107,16 @@ func AutoComplete(text string, completionTree *CompTree) ([]Suggestion, error) {
 					Name: k,
 					Desc: v.Desc,
 				})
+			}
+		}
+		if curr.Dynamic != nil {
+			for _, v := range curr.Dynamic("") {
+				if strings.HasPrefix(v.Name, last) {
+					s = append(s, Suggestion{
+						Name: v.Name,
+						Desc: v.Desc,
+					})
+				}
 			}
 		}
 	}

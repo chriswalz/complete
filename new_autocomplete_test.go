@@ -14,9 +14,11 @@ var gitAutoCompleteTree = &CompTree{
 			Flags: map[string]*CompTree{
 				"quiet": {Desc: "suppress progress reporting"},
 			},
-			Args: map[string]*CompTree{
-				"master": {Desc: ".branch description for master."},
-				"another-branch": {Desc: "some mildly interesting desc"},
+			Dynamic: func(prefix string) []Suggestion {
+				return []Suggestion{
+					{Name: "master", Desc: ".branch description for master."},
+					{Name: "another-branch", Desc: "some mildly interesting desc"},
+				}
 			},
 		},
 		"remote": {
@@ -76,6 +78,9 @@ func TestGitAutoComplete(t *testing.T) {
 		{"git checkout --quiet ", []Suggestion{
 			{"master", ".branch description for master."},
 			{"another-branch", "some mildly interesting desc"},
+		}},
+		{"git checkout --quiet mast", []Suggestion{
+			{"master", ".branch description for master."},
 		}},
 		{"git checkout --quiet non-existant", []Suggestion{}},
 		{"git checkout --qui", []Suggestion{
