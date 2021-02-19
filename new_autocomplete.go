@@ -81,6 +81,26 @@ func AutoComplete(text string, completionTree *AutoCompleteCLI) []Suggestion {
 			}
 		}
 	}
+	// ends with = (suggest flag args)
+	if strings.HasPrefix(last, "-") && strings.HasSuffix(last, "=") {
+		noDash := strings.TrimPrefix(last, "-")
+		noDash = strings.TrimPrefix(noDash, "-")
+		noDash = strings.TrimSuffix(noDash, "=")
+		flagCompleter := curr.Flags[noDash]
+		for k, v := range flagCompleter.Args {
+				s = append(s, Suggestion{
+					name: k,
+					Desc: v.Desc,
+				})
+		}
+		for k, v := range flagCompleter.Sub {
+				s = append(s, Suggestion{
+					name: k,
+					Desc: v.Desc,
+				})
+		}
+	}
+
 	// ends with flag & space
 	// ends with sub
 
