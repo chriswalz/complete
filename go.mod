@@ -1,4 +1,4 @@
-module github.com/chriswalz/complete/v2
+module github.com/chriswalz/complete/v3
 
 require (
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
