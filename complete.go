@@ -98,14 +98,8 @@ func Complete(name string, cmdCompletionTree *AutoCompleteCLI) {
 	exit(0)
 }
 
-func CompleteLine(line string, cmd *Command) ([]string, error) {
-	args := arg.Parse(line)
-
-	// The first word is the current command name.
-	args = args[1:]
-
-	// Run the completion algorithm.
-	return completer{Completer: cmd, args: args}.complete()
+func CompleteLine(line string, cmdCompletionTree *AutoCompleteCLI) ([]Suggestion, error) {
+	return AutoComplete(line, cmdCompletionTree)
 }
 
 type completer struct {
