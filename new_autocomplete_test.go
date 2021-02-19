@@ -126,7 +126,10 @@ func TestNewAutoComplete(t *testing.T) {
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%v", tt.text)
 		t.Run(testname, func(t *testing.T) {
-			got := AutoComplete(tt.text, gitAutoCompleteTree)
+			got, err := AutoComplete(tt.text, gitAutoCompleteTree)
+			if err != nil {
+				t.Error(err)
+			}
 			for _, want := range tt.wants{
 				assert.Contains(t, got, want)
 			}

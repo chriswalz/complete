@@ -16,12 +16,12 @@ import (
 type Completer interface {
 	// SubCmdList should return the list of all sub commands of the current command.
 	SubCmdList() []string
-	// SubCmdGet should return a sub command of the current command for the given sub command name.
+	// SubCmdGet should return a sub command of the current command for the given sub command Name.
 	SubCmdGet(cmd string) Completer
 	// FlagList should return a list of all the flag names of the current command. The flag names
 	// should not have the dash prefix.
 	FlagList() []string
-	// FlagGet should return completion options for a given flag. It is invoked with the flag name
+	// FlagGet should return completion options for a given flag. It is invoked with the flag Name
 	// without the dash prefix. The flag is not promised to be in the command flags. In that case,
 	// this method should return a nil predictor.
 	FlagGet(flag string) Predictor
@@ -57,7 +57,7 @@ var (
 
 // Complete the command line arguments for the given command in the case that the program
 // was invoked with COMP_LINE and COMP_POINT environment variables. In that case it will also
-// `os.Exit()`. The program name should be provided for installation purposes.
+// `os.Exit()`. The program Name should be provided for installation purposes.
 func Complete(name string, cmdCompletionTree *AutoCompleteCLI) {
 	var (
 		line        = getEnv("COMP_LINE")
@@ -92,7 +92,7 @@ func Complete(name string, cmdCompletionTree *AutoCompleteCLI) {
 		fmt.Fprintln(out, "\n"+err.Error())
 	} else {
 		for _, option := range options {
-			fmt.Fprintln(out, option.name)
+			fmt.Fprintln(out, option.Name)
 		}
 	}
 	exit(0)
@@ -133,7 +133,7 @@ reset:
 	case c.SubCmdGet(arg.Text) != nil:
 		// Sub command completed, look into that sub command completion.
 		// Set the complete command to the requested sub command, and the before text to all the text
-		// after the command name and rerun the complete algorithm with the new sub command.
+		// after the command Name and rerun the complete algorithm with the new sub command.
 		c.stack = append([]Completer{c.Completer}, c.stack...)
 		c.Completer = c.SubCmdGet(arg.Text)
 		c.args = c.args[1:]

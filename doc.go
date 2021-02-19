@@ -65,7 +65,7 @@ Add bash completion capabilities to any Go program. See ./example/command.
  )
  var (
  	// Add variables to the program.
- 	name      = flag.String("name", "", "")
+ 	Name      = flag.String("Name", "", "")
  	something = flag.String("something", "", "")
  	nothing   = flag.String("nothing", "", "")
  )
@@ -74,12 +74,12 @@ Add bash completion capabilities to any Go program. See ./example/command.
  	// Here we define completion values for each flag.
  	cmd := &complete.Command{
 	 	Flags: map[string]complete.Predictor{
- 			"name":      predict.Set{"foo", "bar", "foo bar"},
+ 			"Name":      predict.Set{"foo", "bar", "foo bar"},
  			"something": predict.Something,
  			"nothing":   predict.Nothing,
  		},
  	}
- 	// Run the completion - provide it with the binary name.
+ 	// Run the completion - provide it with the binary Name.
  	cmd.Complete("my-program")
  	// Parse the flags.
  	flag.Parse()
@@ -98,7 +98,7 @@ To use this feature, simply call `complete.CommandLine` before `flag.Parse`. (Se
   	foo = flag.Bool("foo", false, "")
   )
   func main() {
-  	// Call command line completion before parsing the flags - provide it with the binary name.
+  	// Call command line completion before parsing the flags - provide it with the binary Name.
  +	complete.CommandLine("my-program")
   	flag.Parse()
   }

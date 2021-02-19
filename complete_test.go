@@ -50,7 +50,7 @@ func TestCompleter(t *testing.T) {
 		args string
 		want []string
 	}{
-		// Check empty flag name matching.
+		// Check empty flag Name matching.
 
 		{args: "flags ", want: []string{"-values", "-nothing", "-something", "-cmd-flag", "-h"}},
 		{args: "flags -", want: []string{"-values", "-nothing", "-something", "-cmd-flag", "-h"}},
