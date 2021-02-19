@@ -39,8 +39,6 @@ import (
 	"os"
 	"strconv"
 	"time"
-
-	"github.com/chriswalz/complete/v3"
 )
 
 // FlagSet is bash completion enabled flag.FlagSet.
@@ -64,7 +62,6 @@ func (fs *FlagSet) Parsed() bool                  { return (*flag.FlagSet)(fs).P
 
 // Complete performs bash completion if needed.
 func (fs *FlagSet) Complete() {
-	complete.Complete(fs.Name(), complete.FlagSet((*flag.FlagSet)(CommandLine)))
 }
 
 var CommandLine = (*FlagSet)(flag.CommandLine)
