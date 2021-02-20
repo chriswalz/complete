@@ -2,7 +2,9 @@ package complete
 
 import (
 	"fmt"
+	"github.com/google/shlex"
 	"io"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -85,6 +87,12 @@ func Complete(name string, cmdCompletionTree *CompTree) {
 	// Parse the command line up to the completion point.
 	// args := arg.Parse(line[:i])
 
+	line = line[:i]
+	split, err := shlex.Split(line)
+	if err != nil {
+		log.Println(err)
+	}
+	last := split[len(split)-1]
 
 	// Run the completion algorithm.
 	options, err := AutoComplete(line[:i], cmdCompletionTree )
@@ -92,7 +100,14 @@ func Complete(name string, cmdCompletionTree *CompTree) {
 		fmt.Fprintln(out, "\n"+err.Error())
 	} else {
 		for _, option := range options {
-			fmt.Fprintln(out, option.Name)
+			name := option.Name
+			if strings.HasPrefix(last, "-") && !strings.HasSuffix(line, " ") {
+				name = "-" + option.Name
+				if len(name) > 2 {
+					name = "-" + name
+				}
+			}
+			fmt.Fprintln(out, name)
 		}
 	}
 	exit(0)
