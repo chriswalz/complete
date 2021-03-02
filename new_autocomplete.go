@@ -15,12 +15,15 @@ type CompTree struct {
 	Desc  string
 }
 
+type SearchMethod func(s, query string) bool
+
 type Suggestion struct {
 	Name string
 	Desc string
 }
 
-func AutoComplete(text string, completionTree *CompTree) ([]Suggestion, error) {
+// e.g. AutoComplete("git sta", completionTree, strings.Prefix)
+func AutoComplete(text string, completionTree *CompTree, queryFunc SearchMethod) ([]Suggestion, error) {
 	var prev *CompTree = nil
 	curr := completionTree
 	curr = prev
@@ -92,9 +95,10 @@ func AutoComplete(text string, completionTree *CompTree) ([]Suggestion, error) {
 			}
 		}
 	}
+	// if NOT a flag and IS a "search" value
 	if !strings.HasPrefix(last, "-") && !strings.HasSuffix(text, " ") {
 		for k, v := range curr.Args {
-			if strings.HasPrefix(k, last) {
+			if queryFunc(k, last) {
 				s = append(s, Suggestion{
 					Name: k,
 					Desc: v.Desc,
@@ -102,7 +106,7 @@ func AutoComplete(text string, completionTree *CompTree) ([]Suggestion, error) {
 			}
 		}
 		for k, v := range curr.Sub {
-			if strings.HasPrefix(k, last) {
+			if queryFunc(k, last) {
 				s = append(s, Suggestion{
 					Name: k,
 					Desc: v.Desc,
@@ -111,7 +115,7 @@ func AutoComplete(text string, completionTree *CompTree) ([]Suggestion, error) {
 		}
 		if curr.Dynamic != nil {
 			for _, v := range curr.Dynamic("") {
-				if strings.HasPrefix(v.Name, last) {
+				if queryFunc(v.Name, last) {
 					s = append(s, Suggestion{
 						Name: v.Name,
 						Desc: v.Desc,

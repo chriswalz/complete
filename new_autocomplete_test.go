@@ -3,6 +3,7 @@ package complete
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
@@ -131,7 +132,7 @@ func TestGitAutoComplete(t *testing.T) {
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%v", tt.text)
 		t.Run(testname, func(t *testing.T) {
-			got, err := AutoComplete(tt.text, gitAutoCompleteTree)
+			got, err := AutoComplete(tt.text, gitAutoCompleteTree, strings.HasPrefix)
 			if err != nil {
 				t.Error(err)
 			}
@@ -145,6 +146,35 @@ func TestGitAutoComplete(t *testing.T) {
 
 	}
 }
+
+func TestGitAutoCompleteContains(t *testing.T) {
+	var tests = []struct {
+		text string
+		wants []Suggestion
+	}{
+		{"git checkout --quiet anch", []Suggestion{
+			{"another-branch", "some mildly interesting desc"},
+		}},
+	}
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("%v", tt.text)
+		t.Run(testname, func(t *testing.T) {
+			got, err := AutoComplete(tt.text, gitAutoCompleteTree, strings.Contains)
+			if err != nil {
+				t.Error(err)
+			}
+			for _, want := range tt.wants{
+				assert.Contains(t, got, want)
+			}
+			if len(got) != 0 && len(tt.wants) == 0 {
+				assert.FailNow(t, "yikes there should 0 suggestions in this case")
+			}
+		})
+
+	}
+}
+
 
 func TestBitCLIAutoComplete(t *testing.T) {
 	var tests = []struct {
@@ -222,7 +252,7 @@ func TestBitCLIAutoComplete(t *testing.T) {
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%v", tt.text)
 		t.Run(testname, func(t *testing.T) {
-			got, err := AutoComplete(tt.text, bitCompleteTree)
+			got, err := AutoComplete(tt.text, bitCompleteTree, strings.HasPrefix)
 			if err != nil {
 				t.Error(err)
 			}

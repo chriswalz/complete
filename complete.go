@@ -95,7 +95,7 @@ func Complete(name string, cmdCompletionTree *CompTree) {
 	last := split[len(split)-1]
 
 	// Run the completion algorithm.
-	options, err := AutoComplete(line[:i], cmdCompletionTree )
+	options, err := AutoComplete(line[:i], cmdCompletionTree, strings.HasPrefix)
 	if err != nil {
 		fmt.Fprintln(out, "\n"+err.Error())
 	} else {
@@ -113,8 +113,8 @@ func Complete(name string, cmdCompletionTree *CompTree) {
 	exit(0)
 }
 
-func CompleteLine(line string, cmdCompletionTree *CompTree) ([]Suggestion, error) {
-	return AutoComplete(line, cmdCompletionTree)
+func CompleteLine(line string, cmdCompletionTree *CompTree, searchMethod SearchMethod) ([]Suggestion, error) {
+	return AutoComplete(line, cmdCompletionTree, searchMethod)
 }
 
 type completer struct {
