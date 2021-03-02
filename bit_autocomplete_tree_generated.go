@@ -2308,8 +2308,7 @@ var b = CompTree{Desc: "", Sub: map[string]*CompTree{"index-pack": {Desc: "", Su
 			"r":              {Desc: `allow recursive removal when a leading directory-name`},
 		},
 	},
-	"cat-file": {Desc: "", Sub: map[string]*CompTree{"blob": {Desc: "blob    commit  tag     tree", Sub: map[string]*CompTree{}},
-	},
+	"cat-file": {Desc: "", Sub: map[string]*CompTree{"blob": {Desc: "blob    commit  tag     tree", Sub: map[string]*CompTree{}}},
 		Flags: map[string]*CompTree{
 			"unordered":          {Desc: `atch-all-objects output`},
 			"t":                  {Desc: `show type of given object`},
@@ -4295,8 +4294,7 @@ var b = CompTree{Desc: "", Sub: map[string]*CompTree{"index-pack": {Desc: "", Su
 	"gst": {Desc: "", Sub: map[string]*CompTree{},
 		Flags: map[string]*CompTree{},
 	},
-	"http-push": {Desc: "", Sub: map[string]*CompTree{"file:": {Desc: "file:      ftp://     gopher://  http://    https://", Sub: map[string]*CompTree{}},
-	},
+	"http-push": {Desc: "", Sub: map[string]*CompTree{"file:": {Desc: "file:      ftp://     gopher://  http://    https://", Sub: map[string]*CompTree{}}},
 		Flags: map[string]*CompTree{
 			"all":     {Desc: `verify that all objects in local ref history exist remotely`},
 			"dry-run": {Desc: `do everything except actually sending the updates`},

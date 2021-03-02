@@ -1,8 +1,5 @@
 package complete
 
-
-
-
 func getBitTree() *CompTree {
 	var bitCompleteTree = &b
 	for k, v := range descriptionMap {
@@ -102,4 +99,3 @@ var descriptionMap = map[string]string{
 	"complete":        "Add classical tab completion to bit",
 	"sync":            "Synchronizes local changes with changes on origin or specified branch",
 }
-

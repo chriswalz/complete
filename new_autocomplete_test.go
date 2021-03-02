@@ -28,7 +28,7 @@ var gitAutoCompleteTree = &CompTree{
 				"add": {
 					Desc: "add a new remote",
 					Args: map[string]*CompTree{
-						"origin": {Desc: ""},
+						"origin":   {Desc: ""},
 						"upstream": {Desc: ""},
 					},
 					Flags: map[string]*CompTree{
@@ -67,13 +67,12 @@ var gitAutoCompleteTree = &CompTree{
 				},
 			},
 		},
-
 	},
 }
 
 func TestGitAutoComplete(t *testing.T) {
 	var tests = []struct {
-		text string
+		text  string
 		wants []Suggestion
 	}{
 		{"git checkout --quiet ", []Suggestion{
@@ -136,7 +135,7 @@ func TestGitAutoComplete(t *testing.T) {
 			if err != nil {
 				t.Error(err)
 			}
-			for _, want := range tt.wants{
+			for _, want := range tt.wants {
 				assert.Contains(t, got, want)
 			}
 			if len(got) != 0 && len(tt.wants) == 0 {
@@ -149,7 +148,7 @@ func TestGitAutoComplete(t *testing.T) {
 
 func TestGitAutoCompleteContains(t *testing.T) {
 	var tests = []struct {
-		text string
+		text  string
 		wants []Suggestion
 	}{
 		{"git checkout --quiet anch", []Suggestion{
@@ -164,7 +163,7 @@ func TestGitAutoCompleteContains(t *testing.T) {
 			if err != nil {
 				t.Error(err)
 			}
-			for _, want := range tt.wants{
+			for _, want := range tt.wants {
 				assert.Contains(t, got, want)
 			}
 			if len(got) != 0 && len(tt.wants) == 0 {
@@ -175,10 +174,9 @@ func TestGitAutoCompleteContains(t *testing.T) {
 	}
 }
 
-
 func TestBitCLIAutoComplete(t *testing.T) {
 	var tests = []struct {
-		text string
+		text  string
 		wants []Suggestion
 	}{
 		{"bit checkout --quiet ", []Suggestion{
@@ -189,8 +187,7 @@ func TestBitCLIAutoComplete(t *testing.T) {
 		{"bit checkout --qui", []Suggestion{
 			{"quiet", "suppress progress reporting"},
 		}},
-		{"bit checkout --yik", []Suggestion{
-		}},
+		{"bit checkout --yik", []Suggestion{}},
 		// What there is a single dash just show all single dash flags
 		{"bit checkout -zzz", []Suggestion{
 			{"q", "suppress progress reporting"},
@@ -256,7 +253,7 @@ func TestBitCLIAutoComplete(t *testing.T) {
 			if err != nil {
 				t.Error(err)
 			}
-			for _, want := range tt.wants{
+			for _, want := range tt.wants {
 				assert.Contains(t, got, want)
 			}
 			if len(got) != 0 && len(tt.wants) == 0 {

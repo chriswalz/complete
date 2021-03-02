@@ -9,10 +9,10 @@ import (
 type CompTree struct {
 	Flags map[string]*CompTree
 	// FIXME: Args & Sub may be able to be combined since thus far there doesn't seem to necessitate a difference
-	Args  map[string]*CompTree
-	Sub   map[string]*CompTree
+	Args    map[string]*CompTree
+	Sub     map[string]*CompTree
 	Dynamic func(prefix string) []Suggestion
-	Desc  string
+	Desc    string
 }
 
 type SearchMethod func(s, query string) bool
@@ -40,7 +40,7 @@ func AutoComplete(text string, completionTree *CompTree, queryFunc SearchMethod)
 		if strings.HasPrefix(field, "-") {
 			continue
 		}
-		if i == len(fields) - 1 && !strings.HasSuffix(text, " ") {
+		if i == len(fields)-1 && !strings.HasSuffix(text, " ") {
 			continue
 		}
 		if curr.Sub[field] != nil {
@@ -81,8 +81,8 @@ func AutoComplete(text string, completionTree *CompTree, queryFunc SearchMethod)
 		searchTerm := strings.TrimPrefix(last, "-")
 		searchTerm = strings.TrimPrefix(searchTerm, "-")
 		for k, v := range curr.Flags {
-			if hasTwoDashes && len(k) > 1 && (strings.HasPrefix(k, searchTerm) || searchTerm == ""){
-					s = append(s, Suggestion{
+			if hasTwoDashes && len(k) > 1 && (strings.HasPrefix(k, searchTerm) || searchTerm == "") {
+				s = append(s, Suggestion{
 					Name: k,
 					Desc: v.Desc,
 				})
@@ -131,16 +131,16 @@ func AutoComplete(text string, completionTree *CompTree, queryFunc SearchMethod)
 		flagName = strings.TrimSuffix(flagName, "=")
 		flagCompleter := curr.Flags[flagName]
 		for k, v := range flagCompleter.Args {
-				s = append(s, Suggestion{
-					Name: k,
-					Desc: v.Desc,
-				})
+			s = append(s, Suggestion{
+				Name: k,
+				Desc: v.Desc,
+			})
 		}
 		for k, v := range flagCompleter.Sub {
-				s = append(s, Suggestion{
-					Name: k,
-					Desc: v.Desc,
-				})
+			s = append(s, Suggestion{
+				Name: k,
+				Desc: v.Desc,
+			})
 		}
 	}
 
